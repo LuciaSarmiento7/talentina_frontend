@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+//las cosas que tiene que tener el mail para que sea valido?
 const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
 export default function FormularioPostulacion({ onAdd }) {
@@ -12,7 +13,7 @@ export default function FormularioPostulacion({ onAdd }) {
     const [enviando, setEnviando] = useState(false);
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); //PARA QUE NO SE ACTUALICE
         setError("");
 
         if (!nombre.trim()) return setError("El nombre es obligatorio.");
@@ -25,13 +26,14 @@ export default function FormularioPostulacion({ onAdd }) {
                 nombre: nombre.trim(),
                 email: email.trim(),
                 experiencia: Number(experiencia),
-                skills: skills.split(",").map(s => s.trim()).filter(Boolean),
+                skills: skills.split(",").map(s => s.trim()).filter(Boolean), //ACA
                 linkCV: linkCV.trim(),
             };
-            // sin backend: delegamos al padre
-            onAdd?.(data);
 
-            // limpiar
+            //"subo" los datos y que se encarguen los del backend (no??)
+            onAdd?.(data); //ACA
+
+            //limpiar
             setNombre("");
             setEmail("");
             setExperiencia("");
