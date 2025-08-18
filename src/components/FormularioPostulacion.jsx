@@ -2,6 +2,17 @@ import { useState } from "react";
 
 //las cosas que tiene que tener el mail para que sea valido?
 const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const estiloFormulario = {
+    backgroundColor: "white",
+    padding: 30,
+    borderRadius: 12,
+    boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+    display: "flex",
+    flexDirection: "column",
+    gap: 16,
+    maxWidth: 400,
+    width: "100%",
+};
 
 export default function FormularioPostulacion({ onAdd }) {
     const [nombre, setNombre] = useState("");
@@ -48,7 +59,7 @@ export default function FormularioPostulacion({ onAdd }) {
     };
 
     return (
-        <form onSubmit={onSubmit} style={{ display: "grid", gap: 8, maxWidth: 420 }}>
+        <form onSubmit={onSubmit} style={estiloFormulario}>
             <h2>Formulario de Postulación</h2>
 
             {error && <div style={{ color: "crimson" }}>{error}</div>}
@@ -73,7 +84,21 @@ export default function FormularioPostulacion({ onAdd }) {
                 <input value={linkCV} onChange={(e) => setLinkCV(e.target.value)} placeholder="https://..." />
             </label>
 
-            <button type="submit" disabled={enviando}>{enviando ? "Enviando..." : "Guardar"}</button>
+            <button type="submit" style={{
+                backgroundColor: "#3b82f6",
+                color: "white",
+                padding: "12px 20px",
+                border: "none",
+                borderRadius: 8,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "background-color 0.3s",
+            }}
+                    onMouseOver={(e) => (e.target.style.backgroundColor = "#2563eb")}
+                    onMouseOut={(e) => (e.target.style.backgroundColor = "#3b82f6")}
+                    disabled={enviando}>{enviando ? "Enviando..." : "Guardar"}</button>
         </form>
     );
+
+
 }
