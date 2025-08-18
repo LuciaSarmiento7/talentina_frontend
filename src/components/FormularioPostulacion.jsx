@@ -1,17 +1,61 @@
 import { useState } from "react";
 
-//las cosas que tiene que tener el mail para que sea valido?
 const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-const estiloFormulario = {
-    backgroundColor: "white",
-    padding: 30,
-    borderRadius: 12,
-    boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
-    display: "flex",
-    flexDirection: "column",
-    gap: 16,
-    maxWidth: 400,
-    width: "100%",
+const estilos = {
+    contenedor: {
+        maxWidth: "420px",
+        margin: "0 auto",
+        padding: "32px",
+        borderRadius: "12px",
+        backgroundColor: "#ffffff",
+        boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
+    },
+    formulario: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "16px"
+    },
+    titulo: {
+        fontSize: "24px",
+        fontWeight: "700",
+        marginBottom: "24px",
+        color: "#1e1e1e"
+    },
+    campo: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start"
+    },
+    label: {
+        marginBottom: "6px",
+        fontWeight: "500",
+        fontSize: "14px"
+    },
+    input: {
+        width: "100%",
+        padding: "10px 12px",
+        borderRadius: "8px",
+        border: "1px solid #ccc",
+        fontSize: "14px"
+    },
+    error: {
+        color: "red",
+        fontWeight: "bold"
+    },
+    boton: {
+        marginTop: "12px",
+        padding: "12px",
+        backgroundColor: "#1d4ed8",
+        color: "#fff",
+        fontWeight: "600",
+        border: "none",
+        borderRadius: "8px",
+        cursor: "pointer"
+    },
+    botonContenedor: {
+        display: "flex",
+        justifyContent: "flex-end"
+    },
 };
 
 export default function FormularioPostulacion({ onAdd }) {
@@ -44,7 +88,6 @@ export default function FormularioPostulacion({ onAdd }) {
             //"subo" los datos y que se encarguen los del backend (no??)
             onAdd?.(data); //ACA
 
-            //limpiar
             setNombre("");
             setEmail("");
             setExperiencia("");
@@ -59,46 +102,53 @@ export default function FormularioPostulacion({ onAdd }) {
     };
 
     return (
-        <form onSubmit={onSubmit} style={estiloFormulario}>
-            <h2>Formulario de Postulación</h2>
+        <div style={estilos.contenedor}>
+        <form onSubmit={onSubmit} style={estilos.formulario}>
+            <h2 style={estilos.titulo}>Formulario de Postulación</h2>
 
-            {error && <div style={{ color: "crimson" }}>{error}</div>}
+            {error && <div style={estilos.error}>{error}</div>}
 
-            <label>Nombre*<br />
-                <input value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej: Ana Pérez" />
+            <div style={estilos.campo}>
+            <label style={estilos.label}>Nombre *<br />
+                <input style={estilos.input} value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Ej: Ana Pérez" />
             </label>
+            </div>
 
-            <label>Email*<br />
-                <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ana@mail.com" />
+            <div style={estilos.campo}>
+            <label style={estilos.label}>Email *<br />
+                <input style={estilos.input} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ana@mail.com" />
             </label>
+            </div>
 
-            <label>Experiencia (años)*<br />
-                <input type="number" min="0" value={experiencia} onChange={(e) => setExperiencia(e.target.value)} placeholder="0" />
+            <div style={estilos.campo}>
+            <label style={estilos.label}>Experiencia<br />
+                <input style={estilos.input} type="number" min="0" value={experiencia} onChange={(e) => setExperiencia(e.target.value)} placeholder="0" />
             </label>
+            </div>
 
-            <label>Skills (separadas por coma)<br />
-                <input value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="React, Node, SQL" />
+            <div style={estilos.campo}>
+            <label style={estilos.label}>Skills<br />
+                <input style={estilos.input} value={skills} onChange={(e) => setSkills(e.target.value)} placeholder="React, Node, SQL" />
             </label>
+            </div>
 
-            <label>Link al CV<br />
-                <input value={linkCV} onChange={(e) => setLinkCV(e.target.value)} placeholder="https://..." />
+                <div style={estilos.campo}>
+            <label style={estilos.label}>Link al CV<br />
+                <input style={estilos.input} value={linkCV} onChange={(e) => setLinkCV(e.target.value)} placeholder="https://..." />
             </label>
+                </div>
 
-            <button type="submit" style={{
-                backgroundColor: "#3b82f6",
-                color: "white",
-                padding: "12px 20px",
-                border: "none",
-                borderRadius: 8,
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "background-color 0.3s",
-            }}
+            <div style={estilos.botonContenedor}>
+            <button type="submit" style={estilos.boton}
                     onMouseOver={(e) => (e.target.style.backgroundColor = "#2563eb")}
                     onMouseOut={(e) => (e.target.style.backgroundColor = "#3b82f6")}
                     disabled={enviando}>{enviando ? "Enviando..." : "Guardar"}</button>
+            </div>
         </form>
+        </div>
     );
+
+
 
 
 }
