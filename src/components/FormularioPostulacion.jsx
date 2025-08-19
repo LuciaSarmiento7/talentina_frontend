@@ -1,13 +1,14 @@
 import {useState} from "react";
 
 const emailOk = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-
+const linkOk = (v) => /^https?:\/\/.+/.test(v);
 const estilos = {
     contenedor: {
         maxWidth: "480px",
         margin: "0 auto",
+        marginBottom: "30px",
         padding: "32px",
-        borderRadius: "12px",
+        borderRadius: "16px",
         backgroundColor: "#ffffff",
         boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
         fontFamily: "sans-serif"
@@ -19,8 +20,7 @@ const estilos = {
     },
     titulo: {
         fontSize: "24px",
-        fontWeight: "700",
-        color: "#1e1e1e",
+        fontWeight: "600",
         marginBottom: "10px"
     },
     campo: {
@@ -70,7 +70,8 @@ const estilos = {
 export default function FormularioPostulacion({onAdd}) {
     const [nombre, setNombre] = useState("");
     const [email, setEmail] = useState("");
-    const [experiencia, setExperiencia] = useState("");
+    const [experienciaAnios, setExperienciaAnios] = useState("");
+    const [experienciaTexto, setExperienciaTexto] = useState("");
     const [skills, setSkills] = useState("");
     const [linkCV, setLinkCV] = useState("");
     const [error, setError] = useState("");
@@ -82,14 +83,16 @@ export default function FormularioPostulacion({onAdd}) {
 
         if (!nombre.trim()) return setError("El nombre es obligatorio.");
         if (!emailOk(email)) return setError("El email es inválido.");
-        if (!linkCV.trim()) return setError("Por favor, agregue un link a su CV");
+        if (!linkCV.trim()) return setError("Por favor, agregue el link a su CV");
+        if (!linkOk(linkCV)) return setError("El link es inválido.");
 
         setEnviando(true);
         try {
             const data = {
                 nombre: nombre.trim(),
                 email: email.trim(),
-                experiencia: Number(experiencia),
+                experienciaAnios: Number(experienciaAnios),
+                experienciaTexto: experienciaTexto.trim(),
                 skills: skills.split(",").map((s) => s.trim()).filter(Boolean),
                 linkCV: linkCV.trim()
             };
@@ -97,7 +100,8 @@ export default function FormularioPostulacion({onAdd}) {
             onAdd?.(data);
             setNombre("");
             setEmail("");
-            setExperiencia("");
+            setExperienciaAnios("");
+            setExperienciaTexto("");
             setSkills("");
             setLinkCV("");
             console.log("Postulante (frontend):", data);
@@ -142,19 +146,19 @@ export default function FormularioPostulacion({onAdd}) {
                     <label style={estilos.label}>Años de experiencia</label>
                     <input
                         style={estilos.input}
-                        type="number" min="0" value={experiencia}
-                        onChange={(e) => setExperiencia(e.target.value)}
+                        type="number" min="0" value={experienciaAnios}
+                        onChange={(e) => setExperienciaAnios(e.target.value)}
                         placeholder="0"
                     />
                 </div>
 
-                {/* EMAIL */}
+                {/* EXPERIENCIA TEXTO*/}
                 <div style={estilos.campo}>
                     <label style={estilos.label}>Experiencia </label>
                     <textarea
                         style={estilos.textarea}
-                        value={experiencia}
-                        onChange={(e) => setExperiencia(e.target.value)}
+                        value={experienciaTexto}
+                        onChange={(e) => setExperienciaTexto(e.target.value)}
                     />
                 </div>
 
