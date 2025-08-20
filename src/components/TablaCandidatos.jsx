@@ -1,8 +1,12 @@
+
 export default function TablaCandidatos({ candidatos }) {
+
     return (
         <div style={estilos.contenedor}>
             <h2 style={estilos.titulo}>Candidatos</h2>
             <table style={estilos.tabla}>
+
+                {/* CABECERA DE LA TABLA */}
                 <thead>
                 <tr>
                     <th style={estilos.th}>Nombre</th>
@@ -11,6 +15,8 @@ export default function TablaCandidatos({ candidatos }) {
                     <th style={estilos.th}>CV</th>
                 </tr>
                 </thead>
+
+                {/* VA MOSTRANDO LOS DATOS DE CADA CANDIDATO */}
                 <tbody>
                 {candidatos.map((c) => (
                     <tr key={c.id} style={estilos.fila}>
@@ -28,7 +34,7 @@ export default function TablaCandidatos({ candidatos }) {
     );
 }
 
-// Estilos
+// ESTILOS
 const estilos = {
     contenedor: {
         padding: "32px",
